@@ -391,7 +391,7 @@ export default function Index({ posts, filters, categories, stats }) {
                             <div className="bg-slate-100 border-t border-slate-300 px-6 py-4 flex justify-end space-x-3">
                                 <button type="button" onClick={() => setAiItems([])} className="px-4 py-2 rounded-xl bg-white border border-slate-300 text-sm font-semibold cursor-pointer">Batal</button>
                                 <button type="button" onClick={saveAi} disabled={aiSaving} className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold inline-flex items-center space-x-2 cursor-pointer disabled:opacity-60">
-                                    {aiSaving && <Spinner />}<span>Simpan Sebagai Draf</span>
+                                    {aiSaving && <Spinner />}<span>Simpan Artikel</span>
                                 </button>
                             </div>
                         )}

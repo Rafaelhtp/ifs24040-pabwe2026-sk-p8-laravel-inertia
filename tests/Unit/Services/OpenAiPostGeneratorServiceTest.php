@@ -111,4 +111,30 @@ class OpenAiPostGeneratorServiceTest extends TestCase
         $noScheme = new OpenAiPostGeneratorService('api.openai.com/v1', 'mock-key');
         $this->assertCount(1, $noScheme->generatePosts('Topik'));
     }
+
+    public function test_generate_fallback_posts_and_category_detection(): void
+    {
+        $service = new OpenAiPostGeneratorService();
+
+        $tech = $service->generateFallbackPosts('keamanan cybersecurity dan pemrograman web', 2);
+        $this->assertCount(2, $tech);
+        $this->assertEquals('Teknologi', $tech[0]->category);
+        $this->assertStringContainsString('## Pendahuluan', $tech[0]->content);
+        $this->assertStringContainsString('## Kesimpulan', $tech[0]->content);
+
+        $edu = $service->generateFallbackPosts('tips belajar efektif di kampus', 1);
+        $this->assertEquals('Pendidikan', $edu[0]->category);
+
+        $biz = $service->generateFallbackPosts('strategi bisnis dan investasi', 1);
+        $this->assertEquals('Bisnis', $biz[0]->category);
+
+        $life = $service->generateFallbackPosts('menjaga kesehatan dan olahraga', 1);
+        $this->assertEquals('Gaya Hidup', $life[0]->category);
+
+        $opini = $service->generateFallbackPosts('opini budaya modern', 1);
+        $this->assertEquals('Opini', $opini[0]->category);
+
+        $umum = $service->generateFallbackPosts('catatan ringan sore hari', 1);
+        $this->assertEquals('Umum', $umum[0]->category);
+    }
 }
