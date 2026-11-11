@@ -1,0 +1,45 @@
+<?php
+
+namespace Tests\Unit\Policies;
+
+use App\Features\Post\Models\Post;
+use App\Features\Post\Policies\PostPolicy;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class PostPolicyTest extends TestCase
+{
+    use RefreshDatabase;
+
+    public function test_view_any_and_create(): void
+    {
+        $policy = new PostPolicy();
+        $user = User::factory()->create();
+
+        $this->assertTrue($policy->viewAny($user));
+        $this->assertTrue($policy->create($user));
+    }
+
+    public function test_view_update_and_delete_policy(): void
+    {
+        $policy = new PostPolicy();
+        $owner = User::factory()->member()->create();
+        $otherMember = User::factory()->member()->create();
+        $admin = User::factory()->admin()->create();
+
+        $post = Post::factory()->create(['user_id' => $owner->id]);
+
+        $this->assertTrue($policy->view($owner, $post));
+        $this->assertTrue($policy->view($admin, $post));
+        $this->assertFalse($policy->view($otherMember, $post));
+
+        $this->assertTrue($policy->update($owner, $post));
+        $this->assertFalse($policy->update($otherMember, $post));
+        $this->assertFalse($policy->update($admin, $post));
+
+        $this->assertTrue($policy->delete($owner, $post));
+        $this->assertFalse($policy->delete($otherMember, $post));
+        $this->assertFalse($policy->delete($admin, $post));
+    }
+}
