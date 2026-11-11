@@ -31,6 +31,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        config()->set('inertia.testing.page_paths', [
+            resource_path('js/Pages'),
+            resource_path('js/pages'),
+        ]);
+        config()->set('inertia.pages.paths', [
+            resource_path('js/Pages'),
+            resource_path('js/pages'),
+        ]);
+
         if (config('app.force_https', false) || $this->app->environment('production')) {
             URL::forceScheme('https');
         }

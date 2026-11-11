@@ -163,6 +163,25 @@ class PostControllerTest extends TestCase
             ->post('/dashboard/posts/ai-generate', ['prompt' => 'Topik teknologi'])
             ->assertSessionHas('error');
 
+        // AI fallback in browser mode (!app()->runningUnitTests()) for both JSON and redirect
+        $previousEnv = $this->app['env'];
+        try {
+            $this->app['env'] = 'local';
+            $controller = new \App\Features\Post\Controllers\PostController();
+
+            $jsonReq = \Illuminate\Http\Request::create('/dashboard/posts/ai-generate', 'POST', ['prompt' => 'Topik teknologi', 'count' => 2]);
+            $jsonReq->headers->set('Accept', 'application/json');
+            $jsonRes = $controller->generateAi($jsonReq, $failAi);
+            $this->assertInstanceOf(\Illuminate\Http\JsonResponse::class, $jsonRes);
+            $this->assertEquals(200, $jsonRes->getStatusCode());
+
+            $webReq = \Illuminate\Http\Request::create('/dashboard/posts/ai-generate', 'POST', ['prompt' => 'Topik teknologi', 'count' => 2]);
+            $redirectRes = $controller->generateAi($webReq, $failAi);
+            $this->assertInstanceOf(\Illuminate\Http\RedirectResponse::class, $redirectRes);
+        } finally {
+            $this->app['env'] = $previousEnv;
+        }
+
         // Save AI items (including skipping invalid item)
         $this->actingAs($user)
             ->post('/dashboard/posts/ai-save', [

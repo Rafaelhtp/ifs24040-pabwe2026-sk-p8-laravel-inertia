@@ -136,5 +136,26 @@ class OpenAiPostGeneratorServiceTest extends TestCase
 
         $umum = $service->generateFallbackPosts('catatan ringan sore hari', 1);
         $this->assertEquals('Umum', $umum[0]->category);
+
+        // Cover fallback branches when app()->runningUnitTests() is false (browser mode)
+        $previousEnv = $this->app['env'];
+        try {
+            $this->app['env'] = 'local';
+
+            $emptyKeyService = new OpenAiPostGeneratorService('https://api.openai.com/v1', '', 'gpt-4o-mini');
+            $fallbackFromEmptyKey = $emptyKeyService->generatePosts('keamanan cybersecurity', 2);
+            $this->assertCount(2, $fallbackFromEmptyKey);
+            $this->assertEquals('Teknologi', $fallbackFromEmptyKey[0]->category);
+
+            Http::fake([
+                'https://api.openai.com/v1/chat/completions' => Http::response(['error' => ['message' => 'Not Found']], 404),
+            ]);
+            $failingService = new OpenAiPostGeneratorService('https://api.openai.com/v1', 'mock-key', 'gpt-4o-mini');
+            $fallbackFromError = $failingService->generatePosts('tips belajar di kampus', 1);
+            $this->assertCount(1, $fallbackFromError);
+            $this->assertEquals('Pendidikan', $fallbackFromError[0]->category);
+        } finally {
+            $this->app['env'] = $previousEnv;
+        }
     }
 }
