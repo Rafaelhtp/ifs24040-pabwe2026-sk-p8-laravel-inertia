@@ -30,7 +30,7 @@ export function TopProgressBar({ active }) {
 
     return (
         <div className="fixed top-0 left-0 right-0 z-[100] h-1 bg-indigo-100 overflow-hidden" role="progressbar" aria-label="Memuat">
-            <div className="h-full w-1/3 bg-gradient-to-r from-indigo-600 via-violet-600 to-fuchsia-600 animate-[progress-slide_1.1s_ease-in-out_infinite]" />
+            <div className="h-full w-1/3 bg-gradient-to-r from-indigo-700 via-purple-700 to-indigo-900 animate-[progress-slide_1.1s_ease-in-out_infinite]" />
             <style>{`@keyframes progress-slide { 0% { transform: translateX(-100%); } 100% { transform: translateX(400%); } }`}</style>
         </div>
     );
@@ -69,12 +69,12 @@ export function FlashMessages({ flash }) {
     return (
         <>
             {flash?.success && (
-                <div className="mb-4 bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 rounded-xl text-sm shadow-xs" role="status">
+                <div className="mb-4 bg-emerald-100 border border-emerald-300 text-emerald-900 px-4 py-3 rounded-xl text-sm font-medium shadow-xs" role="status">
                     {flash.success}
                 </div>
             )}
             {flash?.error && (
-                <div className="mb-4 bg-rose-50 border border-rose-200 text-rose-800 px-4 py-3 rounded-xl text-sm shadow-xs" role="alert">
+                <div className="mb-4 bg-red-100 border border-red-300 text-red-900 px-4 py-3 rounded-xl text-sm font-medium shadow-xs" role="alert">
                     {flash.error}
                 </div>
             )}

@@ -83,7 +83,7 @@ export default function ProfileEdit({ user }) {
             <div className="w-full space-y-6">
                 <div>
                     <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Pengaturan Profil</h1>
-                    <p className="text-sm text-slate-500 mt-0.5">
+                    <p className="text-sm text-slate-700 mt-0.5">
                         Kelola data diri, foto avatar 1:1, dan keamanan kata sandi akun Anda
                     </p>
                 </div>
@@ -91,11 +91,11 @@ export default function ProfileEdit({ user }) {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {/* Left Column: Avatar */}
                     <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-xs flex flex-col items-center text-center">
-                        <h2 className="text-sm font-bold text-slate-800 self-start mb-4">Foto Profil (1:1)</h2>
+                        <h2 className="text-sm font-bold text-slate-900 self-start mb-4">Foto Profil (1:1)</h2>
 
                         <div className="relative w-36 h-36 rounded-2xl overflow-hidden border-2 border-slate-200 shadow-inner mb-4 bg-slate-100 flex items-center justify-center">
                             {previewUrl ? (
-                                <img src={previewUrl} alt="Preview" className="w-full h-full object-cover" />
+                                <img src={previewUrl} alt="Preview foto profil" className="w-full h-full object-cover" />
                             ) : user.profile_photo_path && !imgError ? (
                                 <img
                                     src={`/storage/${user.profile_photo_path}`}
@@ -104,7 +104,7 @@ export default function ProfileEdit({ user }) {
                                     onError={() => setImgError(true)}
                                 />
                             ) : (
-                                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-500 to-indigo-600 text-white font-bold text-3xl">
+                                <div className="w-full h-full flex items-center justify-center bg-indigo-700 text-white font-bold text-3xl">
                                     {user.name?.substring(0, 2).toUpperCase()}
                                 </div>
                             )}
@@ -117,11 +117,11 @@ export default function ProfileEdit({ user }) {
                                         type="button"
                                         onClick={uploadPhoto}
                                         disabled={isUploadingPhoto}
-                                        className="w-full py-2 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-xs transition disabled:opacity-50 flex items-center justify-center space-x-1.5"
+                                        className="w-full py-2 px-4 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold rounded-xl shadow-xs transition disabled:opacity-50 flex items-center justify-center space-x-1.5"
                                     >
                                         {isUploadingPhoto ? (
                                             <>
-                                                <svg className="animate-spin h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24">
+                                                <svg className="animate-spin h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24" aria-hidden="true">
                                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                                 </svg>
@@ -137,21 +137,26 @@ export default function ProfileEdit({ user }) {
                                             setPreviewUrl(null);
                                             setSelectedFile(null);
                                         }}
-                                        className="w-full py-2 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition"
+                                        className="w-full py-2 px-4 bg-slate-200 hover:bg-slate-300 text-slate-900 text-xs font-semibold rounded-xl transition"
                                     >
                                         Batal
                                     </button>
                                 </div>
                             ) : (
                                 <>
-                                    <label className="cursor-pointer w-full py-2 px-4 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-xl shadow-xs transition flex items-center justify-center space-x-2">
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <label
+                                        htmlFor="profile-photo-input"
+                                        className="cursor-pointer w-full py-2 px-4 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-xl shadow-xs transition flex items-center justify-center space-x-2"
+                                    >
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
                                         </svg>
                                         <span>Unggah Foto Baru</span>
                                         <input
+                                            id="profile-photo-input"
                                             type="file"
                                             accept="image/*"
+                                            aria-label="Unggah Foto Baru"
                                             onChange={handlePhotoSelect}
                                             className="hidden"
                                         />
@@ -161,7 +166,7 @@ export default function ProfileEdit({ user }) {
                                         <button
                                             type="button"
                                             onClick={() => setConfirmingPhotoDelete(true)}
-                                            className="w-full py-2 px-4 bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-semibold rounded-xl border border-rose-200 transition"
+                                            className="w-full py-2 px-4 bg-red-100 hover:bg-red-200 text-red-900 text-xs font-semibold rounded-xl border border-red-300 transition"
                                         >
                                             Hapus Foto Profil
                                         </button>
@@ -170,7 +175,7 @@ export default function ProfileEdit({ user }) {
                             )}
                         </div>
 
-                        <p className="text-[11px] text-slate-400 mt-4 leading-relaxed">
+                        <p className="text-[11px] text-slate-700 mt-4 leading-relaxed">
                             Mendukung JPG, PNG, GIF hingga 5MB. Foto diproses otomatis menjadi rasio 1:1.
                         </p>
                     </div>
@@ -179,55 +184,64 @@ export default function ProfileEdit({ user }) {
                     <div className="md:col-span-2 space-y-6">
                         {/* Personal Info Form */}
                         <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-xs">
-                            <h2 className="text-sm font-bold text-slate-800 mb-1">Identitas Akun</h2>
-                            <p className="text-xs text-slate-500 mb-4">Perbarui informasi profil dan alamat email Anda</p>
+                            <h2 className="text-sm font-bold text-slate-900 mb-1">Identitas Akun</h2>
+                            <p className="text-xs text-slate-700 mb-4">Perbarui informasi profil dan alamat email Anda</p>
 
                             <form onSubmit={submitInfo} className="space-y-4">
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700">Nama Lengkap</label>
+                                    <label htmlFor="profile-name" className="block text-xs font-semibold text-slate-800">
+                                        Nama Lengkap
+                                    </label>
                                     <input
+                                        id="profile-name"
                                         type="text"
                                         value={infoForm.data.name}
                                         onChange={(e) => infoForm.setData('name', e.target.value)}
                                         required
-                                        className="mt-1 w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500"
+                                        className="mt-1 w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-900 text-sm focus:ring-2 focus:ring-indigo-600"
                                     />
-                                    {infoForm.errors.name && <p className="mt-1 text-xs text-rose-600">{infoForm.errors.name}</p>}
+                                    {infoForm.errors.name && <p className="mt-1 text-xs text-red-700 font-medium">{infoForm.errors.name}</p>}
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700">Username</label>
+                                    <label htmlFor="profile-username" className="block text-xs font-semibold text-slate-800">
+                                        Username
+                                    </label>
                                     <input
+                                        id="profile-username"
                                         type="text"
                                         value={infoForm.data.username}
                                         onChange={(e) => infoForm.setData('username', e.target.value)}
                                         required
-                                        className="mt-1 w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500"
+                                        className="mt-1 w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-900 text-sm focus:ring-2 focus:ring-indigo-600"
                                     />
-                                    {infoForm.errors.username && <p className="mt-1 text-xs text-rose-600">{infoForm.errors.username}</p>}
+                                    {infoForm.errors.username && <p className="mt-1 text-xs text-red-700 font-medium">{infoForm.errors.username}</p>}
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700">Email</label>
+                                    <label htmlFor="profile-email" className="block text-xs font-semibold text-slate-800">
+                                        Email
+                                    </label>
                                     <input
+                                        id="profile-email"
                                         type="email"
                                         value={infoForm.data.email}
                                         onChange={(e) => infoForm.setData('email', e.target.value)}
                                         required
-                                        className="mt-1 w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500"
+                                        className="mt-1 w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-900 text-sm focus:ring-2 focus:ring-indigo-600"
                                     />
-                                    {infoForm.errors.email && <p className="mt-1 text-xs text-rose-600">{infoForm.errors.email}</p>}
+                                    {infoForm.errors.email && <p className="mt-1 text-xs text-red-700 font-medium">{infoForm.errors.email}</p>}
                                 </div>
 
                                 <div className="pt-2 flex justify-end">
                                     <button
                                         type="submit"
                                         disabled={infoForm.processing}
-                                        className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-xl shadow-xs disabled:opacity-50 flex items-center space-x-1.5"
+                                        className="px-5 py-2 bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-semibold rounded-xl shadow-xs disabled:opacity-50 flex items-center space-x-1.5"
                                     >
                                         {infoForm.processing ? (
                                             <>
-                                                <svg className="animate-spin h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24">
+                                                <svg className="animate-spin h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24" aria-hidden="true">
                                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                                 </svg>
@@ -243,46 +257,55 @@ export default function ProfileEdit({ user }) {
 
                         {/* Password Form */}
                         <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-xs">
-                            <h2 className="text-sm font-bold text-slate-800 mb-1">Perbarui Password</h2>
-                            <p className="text-xs text-slate-500 mb-4">Gunakan password yang kuat untuk menjaga keamanan akun Anda</p>
+                            <h2 className="text-sm font-bold text-slate-900 mb-1">Perbarui Password</h2>
+                            <p className="text-xs text-slate-700 mb-4">Gunakan password yang kuat untuk menjaga keamanan akun Anda</p>
 
                             <form onSubmit={submitPassword} className="space-y-4">
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700">Password Saat Ini</label>
+                                    <label htmlFor="profile-current-password" className="block text-xs font-semibold text-slate-800">
+                                        Password Saat Ini
+                                    </label>
                                     <input
+                                        id="profile-current-password"
                                         type="password"
                                         value={passwordForm.data.current_password}
                                         onChange={(e) => passwordForm.setData('current_password', e.target.value)}
                                         required
-                                        className="mt-1 w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500"
+                                        className="mt-1 w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-900 text-sm focus:ring-2 focus:ring-indigo-600"
                                     />
                                     {passwordForm.errors.current_password && (
-                                        <p className="mt-1 text-xs text-rose-600">{passwordForm.errors.current_password}</p>
+                                        <p className="mt-1 text-xs text-red-700 font-medium">{passwordForm.errors.current_password}</p>
                                     )}
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700">Password Baru</label>
+                                    <label htmlFor="profile-new-password" className="block text-xs font-semibold text-slate-800">
+                                        Password Baru
+                                    </label>
                                     <input
+                                        id="profile-new-password"
                                         type="password"
                                         value={passwordForm.data.password}
                                         onChange={(e) => passwordForm.setData('password', e.target.value)}
                                         required
-                                        className="mt-1 w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500"
+                                        className="mt-1 w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-900 text-sm focus:ring-2 focus:ring-indigo-600"
                                     />
                                     {passwordForm.errors.password && (
-                                        <p className="mt-1 text-xs text-rose-600">{passwordForm.errors.password}</p>
+                                        <p className="mt-1 text-xs text-red-700 font-medium">{passwordForm.errors.password}</p>
                                     )}
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700">Konfirmasi Password Baru</label>
+                                    <label htmlFor="profile-password-confirmation" className="block text-xs font-semibold text-slate-800">
+                                        Konfirmasi Password Baru
+                                    </label>
                                     <input
+                                        id="profile-password-confirmation"
                                         type="password"
                                         value={passwordForm.data.password_confirmation}
                                         onChange={(e) => passwordForm.setData('password_confirmation', e.target.value)}
                                         required
-                                        className="mt-1 w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500"
+                                        className="mt-1 w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-900 text-sm focus:ring-2 focus:ring-indigo-600"
                                     />
                                 </div>
 
@@ -294,7 +317,7 @@ export default function ProfileEdit({ user }) {
                                     >
                                         {passwordForm.processing ? (
                                             <>
-                                                <svg className="animate-spin h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24">
+                                                <svg className="animate-spin h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24" aria-hidden="true">
                                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                                 </svg>
@@ -313,27 +336,29 @@ export default function ProfileEdit({ user }) {
 
             {/* Confirm Delete Photo Modal */}
             {confirmingPhotoDelete && (
-                <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+                <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs" role="dialog" aria-modal="true" aria-label="Konfirmasi Hapus Foto Profil">
                     <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-100 text-center">
-                        <h3 className="text-base font-bold text-slate-900">Hapus Foto Profil?</h3>
-                        <p className="text-xs text-slate-500 mt-1">
+                        <h2 className="text-base font-bold text-slate-900">Hapus Foto Profil?</h2>
+                        <p className="text-xs text-slate-700 mt-1">
                             Foto profil Anda akan dihapus dan digantikan inisial nama.
                         </p>
                         <div className="mt-5 flex items-center justify-center space-x-2">
                             <button
+                                type="button"
                                 onClick={() => setConfirmingPhotoDelete(false)}
-                                className="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl"
+                                className="px-4 py-2 text-xs font-semibold text-slate-800 hover:bg-slate-100 rounded-xl"
                             >
                                 Batal
                             </button>
                             <button
+                                type="button"
                                 onClick={deletePhoto}
                                 disabled={isDeletingPhoto}
-                                className="px-5 py-2 bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold rounded-xl shadow-xs flex items-center space-x-1.5 disabled:opacity-50"
+                                className="px-5 py-2 bg-red-700 hover:bg-red-800 text-white text-xs font-semibold rounded-xl shadow-xs flex items-center space-x-1.5 disabled:opacity-50"
                             >
                                 {isDeletingPhoto ? (
                                     <>
-                                        <svg className="animate-spin h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24">
+                                        <svg className="animate-spin h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24" aria-hidden="true">
                                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                         </svg>
@@ -350,4 +375,3 @@ export default function ProfileEdit({ user }) {
         </AppLayout>
     );
 }
-

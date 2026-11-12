@@ -37,7 +37,10 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        // Post #1 is owned by member and published so both /dashboard/posts/1 (as member or admin)
+        // and /articles/panduan-lengkap-laravel-inertia-react always return 200 OK.
         $samples = [
+            [$member, 'Panduan Lengkap Laravel, Inertia.js, dan React', 'panduan-lengkap-laravel-inertia-react', 'Teknologi', 'Panduan komprehensif membangun aplikasi web modern dengan Laravel, Inertia.js, dan React.', "## Pendahuluan\n\nMenggabungkan **Laravel**, **Inertia.js**, dan **React** memberikan pengalaman pengembangan Single Page Application (SPA) yang cepat tanpa kerumitan membangun API terpisah.\n\n## Keunggulan Utama\n\n- **Routing Server-Side**: Tetap menggunakan routing dan middleware standar Laravel.\n- **Komponen Interaktif**: Antarmuka pengguna dibangun menggunakan komponen React modern.\n- **Performa Optimal**: Transisi halaman berlangsung instan tanpa muat ulang penuh.", true, 6],
             [$admin, 'Selamat Datang di BlogVerse Pro', 'selamat-datang-di-blogverse-pro', 'Umum', 'Pengantar singkat tentang platform BlogVerse Pro.', "## Halo, Dunia!\n\nBlogVerse Pro adalah ruang menulis bagi siapa saja yang ingin berbagi **ide**, *pengalaman*, dan pengetahuan.", true, 5],
             [$member, 'Mengenal Arsitektur Laravel 13', 'mengenal-arsitektur-laravel-13', 'Teknologi', 'Memahami pendekatan feature-first pada Laravel 13.', "## Feature-First\n\nStruktur folder dikelompokkan berdasarkan fitur sehingga kode lebih mudah dirawat.\n\n- Controller\n- Service\n- Repository", true, 3],
             [$member, 'Tips Belajar Efektif untuk Mahasiswa', 'tips-belajar-efektif-untuk-mahasiswa', 'Pendidikan', 'Strategi sederhana agar belajar lebih fokus dan produktif.', "## Atur Waktu\n\nGunakan teknik **Pomodoro** untuk menjaga fokus belajar.", true, 1],
