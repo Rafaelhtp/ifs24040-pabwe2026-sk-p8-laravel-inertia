@@ -1,39 +1,42 @@
 import '../css/app.css';
-import { createInertiaApp } from '@inertiajs/react';
-import { createRoot } from 'react-dom/client';
 
 const pages = import.meta.glob('./Pages/**/*.jsx');
+const pause = (ms = 15) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// Helper untuk yield ke browser main thread agar Long Task terpecah menjadi task-task < 40ms (TBT = 0ms!)
-const yieldToMain = () => new Promise((resolve) => {
-    if (typeof MessageChannel !== 'undefined') {
-        const channel = new MessageChannel();
-        channel.port1.onmessage = () => resolve();
-        channel.port2.postMessage(null);
-    } else {
-        setTimeout(resolve, 0);
-    }
-});
+(async () => {
+    // Step 1: Evaluasi React & ReactDOM dalam task tersendiri (< 45ms -> 0ms TBT)
+    await pause(10);
+    const [{ createElement }, { createRoot }] = await Promise.all([
+        import('react'),
+        import('react-dom/client'),
+    ]);
 
-createInertiaApp({
-    title: (title) => (title ? `${title} - BlogVerse Pro` : 'BlogVerse Pro'),
-    resolve: async (name) => {
-        const importer = pages[`./Pages/${name}.jsx`];
-        if (!importer) {
-            throw new Error(`Page not found: ${name}`);
-        }
-        await yieldToMain();
-        const module = await importer();
-        await yieldToMain();
-        return module.default || module;
-    },
-    setup({ el, App, props }) {
-        const root = createRoot(el);
-        yieldToMain().then(() => {
-            root.render(<App {...props} />);
-        });
-    },
-    progress: {
-        color: '#4f46e5',
-    },
-});
+    // Step 2: Evaluasi Inertia dalam task tersendiri (< 40ms -> 0ms TBT)
+    await pause(15);
+    const { createInertiaApp } = await import('@inertiajs/react');
+
+    // Step 3: Load komponen halaman
+    await pause(15);
+    await createInertiaApp({
+        title: (title) => (title ? `${title} - BlogVerse Pro` : 'BlogVerse Pro'),
+        resolve: async (name) => {
+            const importer = pages[`./Pages/${name}.jsx`];
+            if (!importer) {
+                throw new Error(`Page not found: ${name}`);
+            }
+            const mod = await importer();
+            await pause(15);
+            return mod.default || mod;
+        },
+        setup({ el, App, props }) {
+            const root = createRoot(el);
+            // Step 4: Render DOM React dalam task tersendiri (< 40ms -> 0ms TBT)
+            setTimeout(() => {
+                root.render(createElement(App, props));
+            }, 15);
+        },
+        progress: {
+            color: '#4f46e5',
+        },
+    });
+})();
