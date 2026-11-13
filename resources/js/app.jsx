@@ -1,4 +1,5 @@
 import '../css/app.css';
+import { startTransition } from 'react';
 import { createInertiaApp } from '@inertiajs/react';
 import { createRoot } from 'react-dom/client';
 
@@ -16,10 +17,23 @@ createInertiaApp({
     },
     setup({ el, App, props }) {
         const root = createRoot(el);
-        root.render(<App {...props} />);
+        const mount = () => {
+            startTransition(() => {
+                root.render(<App {...props} />);
+            });
+        };
+
+        if (typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function') {
+            window.requestAnimationFrame(() => {
+                startTransition(() => {
+                    root.render(<App {...props} />);
+                });
+            });
+        } else {
+            mount();
+        }
     },
     progress: {
-        color: '#2563eb',
+        color: '#4338ca',
     },
 });
-
