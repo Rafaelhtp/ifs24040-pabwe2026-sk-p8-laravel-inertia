@@ -30,7 +30,7 @@ export default function Show({ post, categories }) {
                 </Link>
 
                 <div className="mt-4 bg-white border border-slate-200 rounded-2xl overflow-hidden">
-                    {post.cover_image_url && <img src={post.cover_image_url} alt={post.title} className="w-full max-h-80 object-cover" />}
+                    {post.cover_image_url && <img src={post.cover_image_url} alt={post.title} width="800" height="450" decoding="async" className="w-full max-h-80 object-cover" />}
                     <div className="p-6 sm:p-8">
                         <div className="flex flex-wrap items-center gap-2 text-xs">
                             <span className={`px-2.5 py-0.5 rounded-full border font-semibold ${badge}`}>{post.category}</span>

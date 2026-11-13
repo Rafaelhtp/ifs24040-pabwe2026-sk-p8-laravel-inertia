@@ -95,11 +95,14 @@ export default function ProfileEdit({ user }) {
 
                         <div className="relative w-36 h-36 rounded-2xl overflow-hidden border-2 border-slate-200 shadow-inner mb-4 bg-slate-100 flex items-center justify-center">
                             {previewUrl ? (
-                                <img src={previewUrl} alt="Preview foto profil" className="w-full h-full object-cover" />
+                                <img src={previewUrl} alt="Preview foto profil" width="144" height="144" decoding="async" className="w-full h-full object-cover" />
                             ) : user.profile_photo_path && !imgError ? (
                                 <img
                                     src={`/storage/${user.profile_photo_path}`}
                                     alt={user.name}
+                                    width="144"
+                                    height="144"
+                                    decoding="async"
                                     className="w-full h-full object-cover"
                                     onError={() => setImgError(true)}
                                 />

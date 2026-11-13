@@ -22,7 +22,7 @@ export default function PostShow({ post, related }) {
                 </div>
 
                 {post.cover_image_url && (
-                    <img src={post.cover_image_url} alt={post.title} className="mt-6 w-full max-h-96 object-cover rounded-2xl" />
+                    <img src={post.cover_image_url} alt={post.title} width="800" height="450" decoding="async" className="mt-6 w-full max-h-96 object-cover rounded-2xl" />
                 )}
 
                 <div className="mt-8 bg-white border border-slate-200 rounded-2xl p-5 sm:p-8">

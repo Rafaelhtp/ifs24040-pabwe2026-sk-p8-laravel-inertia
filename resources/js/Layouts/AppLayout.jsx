@@ -82,6 +82,9 @@ export default function AppLayout({ children }) {
                                 src={`/storage/${user.profile_photo_path}`}
                                 onError={() => setAvatarError(true)}
                                 alt={user.name}
+                                width="40"
+                                height="40"
+                                decoding="async"
                                 className="w-10 h-10 rounded-full object-cover border border-slate-200 shrink-0"
                             />
                         ) : (

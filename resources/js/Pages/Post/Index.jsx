@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import AppLayout from '../../Layouts/AppLayout';
-import MarkdownEditor from '../../Components/MarkdownEditor';
 import { Spinner } from '../../Components/Feedback';
+
+const MarkdownEditor = lazy(() => import('../../Components/MarkdownEditor'));
 
 const emptyForm = { title: '', category: 'Umum', excerpt: '', content: '', is_published: false };
 
@@ -379,7 +380,7 @@ export default function Index({ posts, filters, categories, stats }) {
                             className="w-16 h-16 rounded-xl bg-indigo-100 overflow-hidden shrink-0 flex items-center justify-center text-indigo-900 font-black text-xl"
                         >
                             {post.cover_image_url ? (
-                                <img src={post.cover_image_url} alt="" className="w-full h-full object-cover" />
+                                <img src={post.cover_image_url} alt="" width="64" height="64" decoding="async" className="w-full h-full object-cover" />
                             ) : (
                                 post.title.charAt(0)
                             )}
@@ -518,20 +519,32 @@ export default function Index({ posts, filters, categories, stats }) {
                                 </div>
                                 <div>
                                     <span className="block text-sm font-semibold text-slate-800 mb-1">Konten (Markdown)</span>
-                                    <MarkdownEditor
-                                        key={editing ? `edit-${editing.id}` : 'create'}
-                                        value={form.content}
-                                        onChange={(md) => setForm((f) => ({ ...f, content: md }))}
-                                        height="420px"
-                                        placeholder="Tulis artikel Anda dalam format Markdown..."
-                                    />
+                                    <Suspense
+                                        fallback={
+                                            <textarea
+                                                aria-label="Konten artikel dalam format Markdown"
+                                                value={form.content}
+                                                onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))}
+                                                rows={10}
+                                                className="w-full p-4 border border-slate-300 rounded-xl text-sm text-slate-900"
+                                            />
+                                        }
+                                    >
+                                        <MarkdownEditor
+                                            key={editing ? `edit-${editing.id}` : 'create'}
+                                            value={form.content}
+                                            onChange={(md) => setForm((f) => ({ ...f, content: md }))}
+                                            height="420px"
+                                            placeholder="Tulis artikel Anda dalam format Markdown..."
+                                        />
+                                    </Suspense>
                                     {errors.content && <p className="text-sm text-red-700 mt-1">{errors.content}</p>}
                                 </div>
                                 {editing && (
                                     <div className="border border-slate-200 rounded-xl p-4">
                                         <p className="text-sm font-semibold text-slate-800 mb-2">Cover Artikel</p>
                                         {currentPost?.cover_image_url && (
-                                            <img src={currentPost.cover_image_url} alt="Cover" className="h-32 rounded-lg object-cover mb-3" />
+                                            <img src={currentPost.cover_image_url} alt="Cover" width="400" height="225" decoding="async" className="h-32 rounded-lg object-cover mb-3" />
                                         )}
                                         <div className="flex gap-2">
                                             <button

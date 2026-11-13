@@ -120,7 +120,7 @@ export default function PostIndex({ posts, filters, categories }) {
                         {posts.data.map((post) => (
                             <article key={post.id} className="bg-white rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition overflow-hidden flex flex-col">
                                 {post.cover_image_url ? (
-                                    <img src={post.cover_image_url} alt={post.title} className="h-44 w-full object-cover" />
+                                    <img src={post.cover_image_url} alt={post.title} width="400" height="225" decoding="async" className="h-44 w-full object-cover" />
                                 ) : (
                                     <div aria-hidden="true" className="h-44 bg-indigo-100 flex items-center justify-center text-4xl font-black text-indigo-900">
                                         {post.title?.charAt(0)}
